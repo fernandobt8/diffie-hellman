@@ -1,11 +1,18 @@
+package main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.net.ServerSocket;
 import java.net.Socket;
+
+import math.RaizPrimitiva;
+
+import comunicacao.ServerComunication;
+
+import dto.DiffieHellmanDto;
 
 public class Comunicacao {
 
@@ -17,15 +24,8 @@ public class Comunicacao {
 		BigInteger numero = new BigInteger(console);
 		System.out.println(RaizPrimitiva.getRaizPrimitiva(numero));
 		if (console.equals("E")) {
-			try {
-				ServerSocket srvr = new ServerSocket(1234);
-				Socket skt = srvr.accept();
-				System.out.print("Conexão estabelecida!\n");
-				OutputStream outputStream = skt.getOutputStream();
-				InputStream inputStream = skt.getInputStream();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			ServerComunication serverComunication = new ServerComunication();
+			serverComunication.waitConetion();
 		} else if (console.equals("S")) {
 			try {
 				System.out.println("Digite endereço IP para começar um pedido de conexão.");
@@ -33,13 +33,11 @@ public class Comunicacao {
 				Socket skt = new Socket(console, 1234);
 				InputStream inputStream = skt.getInputStream();
 				OutputStream outputStream = skt.getOutputStream();
-				DiffeHellmanDto hellmanDto = new DiffeHellmanDto();
+				DiffieHellmanDto hellmanDto = new DiffieHellmanDto();
 				// outputStream.write(seria);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-			System.out.println("Digite \"S\" para começar um pedido de conexão.");
 		}
 	}
 
