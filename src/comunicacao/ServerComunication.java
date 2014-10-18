@@ -37,22 +37,27 @@ public class ServerComunication {
 			InputStream inputStream = skt.getInputStream();
 			System.out.print("Conexão estabelecida!\nRecebido:\n");
 
-			PublicInfoDto publicInfo = (PublicInfoDto) SerializationUtils.deserialize(inputStream);
-			publicInfo.print();
+			PublicInfoDto publicInfoReceived = (PublicInfoDto) SerializationUtils.deserialize(inputStream);
+			publicInfoReceived.print();
 
-			DiffieHellmanDto hellmanDto = new DiffieHellmanDto(publicInfo);
+			DiffieHellmanDto hellmanDto = new DiffieHellmanDto(publicInfoReceived);
 			hellmanDto.print();
+			hellmanDto.generateK(publicInfoReceived.getPublicKey());
+
 			PublicInfoDto myPublicInfo = hellmanDto.getPublicInfoDto();
 			SerializationUtils.serialize(myPublicInfo, outputStream);
+			outputStream.flush();
 
+			this.listen(inputStream, hellmanDto);
 			while (true) {
-				System.out.println("Digite uma mensagem a enviar, ou digite \"sair\" para Sair.");
+				System.out.println("Digite uma mensagem a enviar, ou digite \"sair\" para Sair.\n");
 				String mensagem = Comunicacao.readConsole(this.br);
 				if (mensagem.equals("sair")) {
 					break;
 				} else {
-					SerializationUtils.serialize(new Mensagem(publicInfo.getPublicKey(), mensagem), outputStream);
-					System.out.println("Mensagem enviada!");
+					SerializationUtils.serialize(new Mensagem(myPublicInfo.getPublicKey(), mensagem), outputStream);
+					outputStream.flush();
+					System.out.println("Mensagem enviada!\n");
 				}
 			}
 
@@ -60,5 +65,25 @@ public class ServerComunication {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void listen(final InputStream inputStream, final DiffieHellmanDto hellmanDto) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					Object deserialize = SerializationUtils.deserialize(inputStream);
+					if (deserialize instanceof Mensagem) {
+						Mensagem men = (Mensagem) deserialize;
+						if (hellmanDto.check(men.getPublicKey())) {
+							System.out.println("Mensagem valida recebida, K= " + hellmanDto.getK() + "\nMensagem: " + men.getDado() + "\n");
+						} else {
+							System.out.println("Mensagem invalida recebida chave publica: " + men.getPublicKey());
+						}
+					}
+				}
+			}
+		}).run();
 	}
 }

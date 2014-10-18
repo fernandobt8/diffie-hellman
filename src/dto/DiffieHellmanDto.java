@@ -8,6 +8,11 @@ import math.Primalidade;
 public class DiffieHellmanDto {
 	private BigInteger privateKey;
 	private PublicInfoDto publicInfoDto;
+	private BigInteger k;
+
+	public BigInteger getK() {
+		return this.k;
+	}
 
 	public DiffieHellmanDto() {
 		BigInteger prime = Primalidade.genPrimo(100);
@@ -28,5 +33,13 @@ public class DiffieHellmanDto {
 	public void print() {
 		System.out.println("\nMeus Dados:\nChave Privada: " + this.privateKey + "\n");
 		this.publicInfoDto.print();
+	}
+
+	public void generateK(BigInteger publicKey) {
+		this.k = publicKey.modPow(this.privateKey, this.publicInfoDto.getPrime());
+	}
+
+	public boolean check(BigInteger publicKey) {
+		return publicKey.modPow(this.privateKey, this.publicInfoDto.getPrime()).equals(this.k);
 	}
 }
