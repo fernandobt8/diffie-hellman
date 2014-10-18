@@ -15,7 +15,7 @@ public class DiffieHellmanDto {
 	}
 
 	public DiffieHellmanDto() {
-		BigInteger prime = Primalidade.genPrimo(100);
+		BigInteger prime = Primalidade.genPrimo(50);
 		this.privateKey = new BigInteger(prime.bitLength(), new Random());
 		this.publicInfoDto = new PublicInfoDto(prime, this.privateKey);
 	}
@@ -31,12 +31,13 @@ public class DiffieHellmanDto {
 	}
 
 	public void print() {
-		System.out.println("\nMeus Dados:\nChave Privada: " + this.privateKey + "\n");
+		System.out.println("\nMeus Dados:\nChave Privada: " + this.privateKey);
 		this.publicInfoDto.print();
 	}
 
 	public void generateK(BigInteger publicKey) {
 		this.k = publicKey.modPow(this.privateKey, this.publicInfoDto.getPrime());
+		System.out.println("K: " + this.k);
 	}
 
 	public boolean check(BigInteger publicKey) {

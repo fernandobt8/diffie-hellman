@@ -36,6 +36,6 @@ public class PublicInfoDto implements Serializable {
 	}
 
 	public void print() {
-		System.out.println("Primo: " + this.prime + "\nAlfa: " + this.alfa + "\nChave Publica: " + this.publicKey);
+		System.out.println("Chave Publica: " + this.publicKey + "\nPrimo: " + this.prime + "\nAlfa: " + this.alfa);
 	}
 }

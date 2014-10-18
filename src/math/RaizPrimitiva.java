@@ -1,4 +1,5 @@
 package math;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +72,7 @@ public class RaizPrimitiva {
 	}
 
 	private static BigInteger ultimaRaizPrimitiva(BigInteger numero, ArrayList<BigInteger> p) {
-		BigInteger m = new BigInteger("2");
+		BigInteger m = new BigInteger("3");
 		boolean find = false;
 		while (!find) {
 			int i = 0;

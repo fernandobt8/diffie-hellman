@@ -7,19 +7,19 @@ import java.io.InputStreamReader;
 import comunicacao.ClientComunication;
 import comunicacao.ServerComunication;
 
-public class Comunicacao {
+public class Main {
 
 	public static void main(String[] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Digite \"E\" para esperar pedido comunicação.");
-		System.out.println("Digite \"S\" para começar um pedido de conexão.");
+		System.out.println("Digite \"w\" para esperar pedido comunicação.");
+		System.out.println("Digite \"s\" para começar um pedido de conexão.");
 		String console = readConsole(br);
-		if (console.equals("E")) {
+		if (console.equals("w")) {
 			ServerComunication serverComunication = new ServerComunication();
 			serverComunication.waitConetion();
-		} else if (console.equals("S")) {
+		} else if (console.equals("s")) {
 			System.out.println("Digite endereço IP para começar um pedido de conexão.");
-			console = Comunicacao.readConsole(br);
+			console = Main.readConsole(br);
 			ClientComunication clientComunication = new ClientComunication(console);
 			clientComunication.initConection();
 		}
