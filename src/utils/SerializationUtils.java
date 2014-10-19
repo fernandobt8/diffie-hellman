@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 public class SerializationUtils {
 
+	// serializa e envia um objeto
 	public static void serialize(Serializable obj, OutputStream outputStream) {
 		if (outputStream == null) {
 			throw new IllegalArgumentException("The OutputStream must not be null");
@@ -27,6 +28,7 @@ public class SerializationUtils {
 		}
 	}
 
+	// recebe e desserializa um objeto
 	public static Object deserialize(InputStream inputStream) {
 		if (inputStream == null) {
 			throw new IllegalArgumentException("The InputStream must not be null");

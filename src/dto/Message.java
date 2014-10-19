@@ -3,6 +3,7 @@ package dto;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+//classe usada para enviar mensagens com um Y junto.
 public class Message implements Serializable {
 	private static final long serialVersionUID = -6536116242955591743L;
 	private BigInteger publicKey;

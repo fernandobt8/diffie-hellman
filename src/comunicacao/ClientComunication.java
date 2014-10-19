@@ -2,11 +2,11 @@ package comunicacao;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.Socket;
 
 import utils.SerializationUtils;
 import dto.DiffieHellmanDto;
-import dto.PublicInfoDto;
 
 public class ClientComunication {
 
@@ -25,17 +25,21 @@ public class ClientComunication {
 			InputStream inputStream = this.skt.getInputStream();
 			OutputStream outputStream = this.skt.getOutputStream();
 
-			DiffieHellmanDto hellmanDto = new DiffieHellmanDto();
+			// gera um Xa aletório Xa < q e um Ya alfa^Xa mod q
+			DiffieHellmanDto hellmanDto = new DiffieHellmanDto("a");
 			hellmanDto.print();
 
-			SerializationUtils.serialize(hellmanDto.getPublicInfoDto(), outputStream);
+			// envia seu Ya
+			SerializationUtils.serialize(hellmanDto.getPublicKey(), outputStream);
 
-			PublicInfoDto publicInfoReceived = (PublicInfoDto) SerializationUtils.deserialize(inputStream);
-			System.out.println("\nRecebido: ");
-			publicInfoReceived.print();
+			// recebe o Yb
+			BigInteger publicKeyReceived = (BigInteger) SerializationUtils.deserialize(inputStream);
+			MessageManager.print("Recebido Yb: " + publicKeyReceived);
 
-			hellmanDto.generateK(publicInfoReceived.getPublicKey());
+			// gera um k baseado no Yb recebido terminando o acordo de chaves.
+			hellmanDto.generateK(publicKeyReceived);
 
+			// inicia um nova tread para ficar recebendo mensagens e outra para enviar mensagens com seu Ya junto.
 			MessageManager messagemManager = new MessageManager(inputStream, outputStream, hellmanDto);
 			Thread listen = new Thread(messagemManager);
 			listen.start();

@@ -1,36 +1,42 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.math.BigInteger;
+
+import math.Primalidade;
+import math.RaizPrimitiva;
 
 import comunicacao.ClientComunication;
+import comunicacao.MessageManager;
 import comunicacao.ServerComunication;
 
 public class Main {
 
+	// número primo e sua raiz primitiva previamente gerado, pois o algoritmo para gerar a raiz primitiva leva várias horas para números grandes.
+	public static final BigInteger prime = new BigInteger("761");
+	public static final BigInteger alfa = new BigInteger("6");
+
 	public static void main(String[] args) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Digite \"w\" para esperar pedido comunicação.");
-		System.out.println("Digite \"s\" para começar um pedido de conexão.");
-		String console = readConsole(br);
+		System.out.println("Digite \"w\" e enter para esperar pedido de comunicação.");
+		System.out.println("Digite \"s\" e enter para começar um pedido de conexão.");
+		BigInteger genPrimo = Primalidade.genPrimo(100);
+		System.out.println(genPrimo);
+		System.out.println(RaizPrimitiva.getRaizPrimitiva(genPrimo));
+		String console = MessageManager.readConsole();
+		System.out.println("q: " + prime);
+		System.out.println("alfa: " + alfa);
 		if (console.equals("w")) {
+			// espera receber um Ya para iniciar uma conexão
 			ServerComunication serverComunication = new ServerComunication();
 			serverComunication.waitConetion();
 		} else if (console.equals("s")) {
+			// estabele uma conexão e envia seu Ya.
 			System.out.println("Digite endereço IP para começar um pedido de conexão.");
-			console = Main.readConsole(br);
+			console = MessageManager.readConsole();
 			ClientComunication clientComunication = new ClientComunication(console);
 			clientComunication.initConection();
+		} else {
+			System.out.println("Opção inválida!!");
 		}
 	}
 
-	public static String readConsole(BufferedReader br) {
-		try {
-			return br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
 }
