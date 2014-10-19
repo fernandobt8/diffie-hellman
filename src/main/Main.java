@@ -15,6 +15,9 @@ public class Main {
 	public static final BigInteger prime = new BigInteger("761");
 	public static final BigInteger alfa = new BigInteger("6");
 
+	public static final BigInteger P = new BigInteger("14501674483077440933515249410481686226842322350312669366360308844975622867692369300228716640175357247");
+	public static final BigInteger PRIMITIVE_ROOT = new BigInteger("5");
+
 	public static void main(String[] args) {
 		System.out.println("Digite \"w\" e enter para esperar pedido de comunicação.");
 		System.out.println("Digite \"s\" e enter para começar um pedido de conexão.");
