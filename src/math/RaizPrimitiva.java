@@ -62,6 +62,9 @@ public class RaizPrimitiva {
 				System.out.println("i--" + i);
 				System.out.println("n--" + n);
 			}
+			if (n.isProbablePrime(30)) {
+				break;
+			}
 		}
 		if (n.compareTo(BigInteger.ONE) > 0) {
 			System.out.println("n--" + n);

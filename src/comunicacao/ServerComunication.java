@@ -24,6 +24,7 @@ public class ServerComunication {
 
 	public void waitConetion() {
 		try {
+			MessageManager.print("Aguardando conexão!");
 			Socket skt = this.srvr.accept();
 			OutputStream outputStream = skt.getOutputStream();
 			InputStream inputStream = skt.getInputStream();
@@ -42,19 +43,6 @@ public class ServerComunication {
 
 			// gera um k baseado no Ya recebido terminando o acordo de chaves.
 			hellmanDto.generateK(publicKeyReceived);
-
-			// inicia um nova tread para ficar recebendo mensagens e outra para enviar mensagens com seu Yb junto.
-			MessageManager messageManager = new MessageManager(inputStream, outputStream, hellmanDto);
-			Thread listen = new Thread(messageManager);
-			listen.start();
-
-			messageManager.sendMessage();
-
-			outputStream.close();
-			inputStream.close();
-			skt.close();
-			messageManager.terminate();
-			listen.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

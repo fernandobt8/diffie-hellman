@@ -38,17 +38,6 @@ public class ClientComunication {
 
 			// gera um k baseado no Yb recebido terminando o acordo de chaves.
 			hellmanDto.generateK(publicKeyReceived);
-
-			// inicia um nova tread para ficar recebendo mensagens e outra para enviar mensagens com seu Ya junto.
-			MessageManager messagemManager = new MessageManager(inputStream, outputStream, hellmanDto);
-			Thread listen = new Thread(messagemManager);
-			listen.start();
-			messagemManager.sendMessage();
-
-			inputStream.close();
-			outputStream.close();
-			messagemManager.terminate();
-			listen.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

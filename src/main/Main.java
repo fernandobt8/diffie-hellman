@@ -2,9 +2,6 @@ package main;
 
 import java.math.BigInteger;
 
-import math.Primalidade;
-import math.RaizPrimitiva;
-
 import comunicacao.ClientComunication;
 import comunicacao.MessageManager;
 import comunicacao.ServerComunication;
@@ -12,18 +9,12 @@ import comunicacao.ServerComunication;
 public class Main {
 
 	// número primo e sua raiz primitiva previamente gerado, pois o algoritmo para gerar a raiz primitiva leva várias horas para números grandes.
-	public static final BigInteger prime = new BigInteger("761");
-	public static final BigInteger alfa = new BigInteger("6");
-
-	public static final BigInteger P = new BigInteger("14501674483077440933515249410481686226842322350312669366360308844975622867692369300228716640175357247");
-	public static final BigInteger PRIMITIVE_ROOT = new BigInteger("5");
+	public static final BigInteger prime = new BigInteger("14501674483077440933515249410481686226842322350312669366360308844975622867692369300228716640175357247");
+	public static final BigInteger alfa = new BigInteger("5");
 
 	public static void main(String[] args) {
-		System.out.println("Digite \"w\" e enter para esperar pedido de comunicação.");
+		System.out.println("Digite \"w\" e enter para esperar um pedido de conexão.");
 		System.out.println("Digite \"s\" e enter para começar um pedido de conexão.");
-		BigInteger genPrimo = Primalidade.genPrimo(100);
-		System.out.println(genPrimo);
-		System.out.println(RaizPrimitiva.getRaizPrimitiva(genPrimo));
 		String console = MessageManager.readConsole();
 		System.out.println("q: " + prime);
 		System.out.println("alfa: " + alfa);
